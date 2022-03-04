@@ -32,9 +32,9 @@
                 <td>
                   <div>
                     <!-- Editar -->
-                    <button type="button" class="btn btn-outline-success btn-sm m-md-1" id="btnEditarCategoria"><fa icon="edit" /></button>
+                    <button type="button" class="btn btn-outline-success btn-sm m-md-1" id="btnEditarCategoria" data-bs-toggle="modal" data-bs-target="#modalEditarProducto"><fa icon="edit" /></button>
                     <!-- Eliminar -->
-                    <button type="button" class="btn btn-outline-danger btn-sm" id="btnEliminarCategoria"><fa icon="trash-alt" /></button>            
+                    <button type="button" @click="Eliminar(item.id)" class="btn btn-outline-danger btn-sm" id="btnEliminarCategoria"><fa icon="trash-alt" /></button>            
                   </div>
                 </td>
                 </tr>
@@ -48,6 +48,8 @@
     </div>
     <!-- Agregamos el modal para guardar Productos -->
     <ModalGuardarProducto @eventoHijo="loadData"/>
+    <!-- Agregamos el modal para editar Productos -->
+    <ModalEditarProducto ref="editar" @eventoHijo="loadData" />
     <!-- Agregamos componente TOAST para las notificaciones push -->
     <Toast ref="toast" />   
   </div>   
@@ -59,6 +61,7 @@
 import axios from 'axios'
 // Importamos los modales 
 import ModalGuardarProducto from '@/components/producto/ModalGuardarProducto.vue'
+import ModalEditarProducto from '@/components/producto/ModalEditarProducto.vue'
 // Importamos el componente para las notificaciones push (Toast) 
 import Toast from '@/components/Toast.vue'
 
@@ -66,6 +69,7 @@ export default {
   name: 'HelloWorld',
   components:{
     ModalGuardarProducto,
+    ModalEditarProducto,
     Toast
   },
   data() {
@@ -77,6 +81,32 @@ export default {
     this.loadData();
   }, methods: { 
        
+      Eliminar:function(id){
+      this.$swal({
+          title: '¿Estas seguro?',
+          text: 'Esta accion no se puede revertir!',
+          type: 'warning',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, eliminalo!',
+          cancelButtonText: 'No, dejalo!',
+          showCloseButton: true,
+          showLoaderOnConfirm: true
+        }).then((result) => {
+          if(result.value) {
+            axios.delete('http://localhost:9000/api/producto/'+id,).then( () =>{
+              this.$refs.toast.Toast("Elimidado","Se elimino con exito!","success");              
+              this.loadData();
+            })
+            .catch(()=>{
+              this.$refs.toast.Toast("Error","No se pudo eliminar","error");
+            })
+            
+          } else {
+            this.$refs.toast.Toast("Cancelado","Tu registro esta intacto!","info");
+          }
+        })
+    }, 
     loadData:function(){
       axios.get('http://localhost:9000/api/producto').then(result =>{
         this.listData = result.data

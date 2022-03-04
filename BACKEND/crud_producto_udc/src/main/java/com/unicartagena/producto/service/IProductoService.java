@@ -12,5 +12,8 @@ public interface IProductoService{
 	
 	//Guardar
 	public ProductoEntity save(ProductoEntity productoEntity);
+
+		//Eliminar por ID
+	public void deleteById(Long id);
 		
 }

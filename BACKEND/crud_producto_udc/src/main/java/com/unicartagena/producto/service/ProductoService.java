@@ -23,4 +23,11 @@ public class ProductoService implements IProductoService {
 	public ProductoEntity save(ProductoEntity productoEntity) {
 		return this.repository.save(productoEntity);
 	}
+
+	@Override
+	public void deleteById(Long id) {
+		this.repository.deleteById(id);
+
+	}
+
 }
