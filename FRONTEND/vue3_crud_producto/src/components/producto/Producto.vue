@@ -32,7 +32,7 @@
                 <td>
                   <div>
                     <!-- Editar -->
-                    <button type="button" class="btn btn-outline-success btn-sm m-md-1" id="btnEditarCategoria" data-bs-toggle="modal" data-bs-target="#modalEditarProducto"><fa icon="edit" /></button>
+                    <button type="button" @click="CargarId(item.id)" class="btn btn-outline-success btn-sm m-md-1" id="btnEditarCategoria" data-bs-toggle="modal" data-bs-target="#modalEditarProducto"><fa icon="edit" /></button>
                     <!-- Eliminar -->
                     <button type="button" @click="Eliminar(item.id)" class="btn btn-outline-danger btn-sm" id="btnEliminarCategoria"><fa icon="trash-alt" /></button>            
                   </div>
@@ -116,6 +116,9 @@ export default {
         this.listData = []
       })
     },
+      CargarId:function(id){
+      this.$refs.editar.FindByid(id);
+    }
   },      
 }
 </script>
