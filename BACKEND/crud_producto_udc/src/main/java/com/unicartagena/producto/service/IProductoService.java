@@ -10,7 +10,7 @@ public interface IProductoService{
 	//Listar todo
 	public List<ProductoEntity> all();
 	
-	//Guardar
+	//Guardar-Actualizar
 	public ProductoEntity save(ProductoEntity productoEntity);
 
 		//Eliminar por ID
